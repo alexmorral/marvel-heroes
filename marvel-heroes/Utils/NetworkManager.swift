@@ -16,11 +16,17 @@ class NetworkManager {
         return stringToHash.md5
     }
     
-    static func getMarvelCharacters(success succeed: @escaping (_ response: MarvelResponse) -> (),
+    static func getMarvelCharacters(searchTerm: String? = nil,
+                                    offset: Int,
+                                    success succeed: @escaping (_ response: MarvelResponse) -> (),
                                     failure fail: @escaping (_ error: Error) -> ()) {
         let currentTs = Date().timeIntervalSince1970
-        let apiURLString = "https://gateway.marvel.com:443/v1/public/characters?apikey=\(marvelPublicAPIKey)&ts=\(currentTs)&hash=\(currentAPIHash(timestamp: currentTs))"
+        var apiURLString = "https://gateway.marvel.com:443/v1/public/characters?apikey=\(marvelPublicAPIKey)&ts=\(currentTs)&hash=\(currentAPIHash(timestamp: currentTs))&offset=\(offset)"
+        if let searchTerm = searchTerm {
+            apiURLString.append("&nameStartsWith=\(searchTerm)")
+        }
         guard let apiURL = URL(string: apiURLString) else {
+            print("Incorrect URL provided")
             fail(NSError())
             return
         }
@@ -29,6 +35,7 @@ class NetworkManager {
         
         let urlTask = URLSession.shared.dataTask(with: urlRequest) { (data, response, error) in
             guard let data = data, error == nil else {
+                print("Incorrect data provided or error not nil")
                 fail(NSError())
                 return
             }

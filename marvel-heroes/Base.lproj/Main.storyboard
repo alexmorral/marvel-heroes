@@ -4,7 +4,6 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
-        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -102,12 +101,22 @@
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="obp-i2-xhR">
+                                <rect key="frame" x="20" y="344" width="374" height="20.5"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="2IV-UT-cKt"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="obp-i2-xhR" firstAttribute="centerY" secondItem="cEQ-1e-ABE" secondAttribute="centerY" constant="-50" id="Ie4-He-Za8"/>
+                            <constraint firstItem="obp-i2-xhR" firstAttribute="leading" secondItem="2IV-UT-cKt" secondAttribute="leading" constant="20" id="KR4-SU-Trr"/>
                             <constraint firstAttribute="bottom" secondItem="X6t-fe-gLh" secondAttribute="bottom" id="SBu-yz-opC"/>
+                            <constraint firstItem="obp-i2-xhR" firstAttribute="centerX" secondItem="cEQ-1e-ABE" secondAttribute="centerX" id="Tbu-Tv-JA2"/>
                             <constraint firstItem="X6t-fe-gLh" firstAttribute="top" secondItem="2IV-UT-cKt" secondAttribute="top" id="djD-gs-pJI"/>
+                            <constraint firstItem="2IV-UT-cKt" firstAttribute="trailing" secondItem="obp-i2-xhR" secondAttribute="trailing" constant="20" id="iVt-qu-6mk"/>
                             <constraint firstItem="2IV-UT-cKt" firstAttribute="trailing" secondItem="X6t-fe-gLh" secondAttribute="trailing" id="jNQ-B7-5jb"/>
                             <constraint firstItem="X6t-fe-gLh" firstAttribute="leading" secondItem="2IV-UT-cKt" secondAttribute="leading" id="ygw-hF-ej6"/>
                         </constraints>
@@ -115,6 +124,7 @@
                     <navigationItem key="navigationItem" id="fO4-9O-dOm"/>
                     <connections>
                         <outlet property="heroesCollectionView" destination="X6t-fe-gLh" id="xIx-kr-q2c"/>
+                        <outlet property="lblErrorLoading" destination="obp-i2-xhR" id="O1B-3C-Hkh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="M2Q-cT-gqi" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -122,9 +132,4 @@
             <point key="canvasLocation" x="327.536231884058" y="105.80357142857143"/>
         </scene>
     </scenes>
-    <resources>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-    </resources>
 </document>

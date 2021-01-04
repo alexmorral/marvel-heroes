@@ -6,26 +6,40 @@
 //
 
 import UIKit
+import SwiftEntryKit
 
-enum Section {
-  case main
+private enum LoadingStatus {
+    case loading, notLoading
 }
-
-typealias DataSource = UICollectionViewDiffableDataSource<Section, MarvelCharacter>
-typealias Snapshot = NSDiffableDataSourceSnapshot<Section, MarvelCharacter>
 
 class CollectionViewController: UIViewController {
 
+    let searchController: UISearchController = {
+        let searchController = UISearchController(searchResultsController: nil)
+        searchController.searchBar.placeholder = "New Search"
+        searchController.searchBar.searchBarStyle = .minimal
+        searchController.searchBar.backgroundColor = .black
+        searchController.searchBar.tintColor = .white
+        searchController.searchBar.barStyle = .black
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.hidesNavigationBarDuringPresentation = false
+        
+        return searchController
+    }()
+    
     @IBOutlet weak var heroesCollectionView: UICollectionView!
-    private lazy var dataSource = makeDataSource()
+    @IBOutlet weak var lblErrorLoading: UILabel!
+    
+    var currentCharacters = [MarvelCharacter]()
+    
+    private var loadingStatus: LoadingStatus = .notLoading
     
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Marvel Characters"
-        
         setupAppearance()
         setupHeroesCollection()
-        setupData()
+        loadData()
     }
     
     func setupAppearance() {
@@ -49,52 +63,124 @@ class CollectionViewController: UIViewController {
     }
     
     @objc func showSearchBar() {
-        
+        searchController.searchBar.delegate = self
+        self.present(searchController, animated: true, completion: nil)
     }
     
-    func setupData() {
-        NetworkManager.getMarvelCharacters { (results) in
-            //success
+    func loadData(offset: Int = 0, searchTerm: String? = nil) {
+        if loadingStatus != .notLoading { return }
+        loadingStatus = .loading
+        if offset == 0 {
+            self.currentCharacters = []
+        }
+        displayLoading()
+        print("||| Current Offset: \(offset)")
+        NetworkManager.getMarvelCharacters(searchTerm: searchTerm,
+                                           offset: offset, success: { (results) in
+            sleep(1)
             DispatchQueue.main.async {
-                self.applySnapshot(charactersList: results.data.results)
+                self.dismissLoading()
+                self.lblErrorLoading.isHidden = true
+                self.currentCharacters.append(contentsOf: results.data.results)
+                self.heroesCollectionView.reloadData()
+                self.loadingStatus = .notLoading
             }
-        } failure: { (error) in
-            //error
-            print("ERROR: \(error)")
+        }, failure: { (error) in
+            print("\(error.localizedDescription)")
+            DispatchQueue.main.async {
+                self.dismissLoading()
+                self.lblErrorLoading.isHidden = false
+                self.lblErrorLoading.text = "An error occured while loading the characters. Please check the logs and try again."
+                self.heroesCollectionView.isHidden = true
+                self.loadingStatus = .notLoading
+            }
+        })
+    }
+    
+    func displayLoading() {
+        let style = EKProperty.LabelStyle(font: UIFont.systemFont(ofSize: 14), color: .white, alignment: .center, displayMode: .dark, numberOfLines: 0)
+        let labelContent = EKProperty.LabelContent(text: "Loading characters", style: style)
+        let contentView = EKProcessingNoteMessageView(with: labelContent, activityIndicator: .medium)
+        SwiftEntryKit.display(entry: contentView, using: EKAttributes.bottomNote)
+    }
+    
+    func dismissLoading() {
+        SwiftEntryKit.dismiss()
+    }
+    
+}
+
+extension CollectionViewController: UICollectionViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let offsetY = scrollView.contentOffset.y
+        let contentHeight = scrollView.contentSize.height
+        
+        if offsetY > contentHeight - scrollView.frame.size.height && loadingStatus == .notLoading {
+            //Sort of an infinite scrolling
+            loadData(offset: currentCharacters.count)
         }
     }
     
-    func setupHeroesCollection() {
-        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        layout.sectionInset = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
-        let screenWidth = UIScreen.main.bounds.width
-        let itemSize = screenWidth/2
-        layout.itemSize = CGSize(width: itemSize, height: itemSize)
-        layout.minimumInteritemSpacing = 0
-        layout.minimumLineSpacing = 0
-        heroesCollectionView.collectionViewLayout = layout
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let marvelCharacter = currentCharacters[indexPath.row]
+        print("||Character selected: \(marvelCharacter)")
     }
-    
-    func applySnapshot(animatingDifferences: Bool = true, charactersList: [MarvelCharacter]) {
-        var snapshot = Snapshot()
-        snapshot.appendSections([.main])
-        snapshot.appendItems(charactersList)
-        dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
-    }
-    
-    func makeDataSource() -> DataSource {
-        let dataSource = DataSource(
-            collectionView: heroesCollectionView,
-            cellProvider: { (collectionView, indexPath, marvelCharacter) ->
-                UICollectionViewCell? in
-                let cell = collectionView.dequeueReusableCell(
-                    withReuseIdentifier: "HeroCollectionViewCell",
-                    for: indexPath) as? HeroCollectionViewCell
-                cell?.marvelCharacter = marvelCharacter
-                cell?.setupCell()
-                return cell
-            })
-        return dataSource
-    }
+}
 
+extension CollectionViewController: UISearchBarDelegate {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        //search
+        searchResultsWith(text: searchBar.text)
+    }
+    
+    func searchResultsWith(text: String?) {
+        let searchString = text?.trimmingCharacters(in: .whitespacesAndNewlines)
+        loadData(offset: 0, searchTerm: searchString)
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchResultsWith(text: nil)
+    }
+}
+
+extension CollectionViewController: UICollectionViewDataSource {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return currentCharacters.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HeroCollectionViewCell.reuseIdentifier, for: indexPath) as? HeroCollectionViewCell else {
+            return UICollectionViewCell()
+        }
+        
+        cell.marvelCharacter = self.currentCharacters[indexPath.row]
+        cell.setupCell()
+        return cell
+    }
+}
+//SETUP LAYOUT
+extension CollectionViewController {
+    func setupHeroesCollection() {
+        heroesCollectionView.delegate = self
+        heroesCollectionView.dataSource = self
+        heroesCollectionView.collectionViewLayout = UICollectionViewCompositionalLayout(sectionProvider: { (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
+            let isPhone = layoutEnvironment.traitCollection.userInterfaceIdiom == UIUserInterfaceIdiom.phone
+            let size = NSCollectionLayoutSize(
+                widthDimension: NSCollectionLayoutDimension.fractionalWidth(1),
+                heightDimension: NSCollectionLayoutDimension.absolute(isPhone ? 280 : 250)
+            )
+            let itemCount = isPhone ? 1 : 3
+            let item = NSCollectionLayoutItem(layoutSize: size)
+            let group = NSCollectionLayoutGroup.horizontal(layoutSize: size, subitem: item, count: itemCount)
+            let section = NSCollectionLayoutSection(group: group)
+            section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
+            section.interGroupSpacing = 10
+            return section
+        })
+        
+    }
 }

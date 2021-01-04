@@ -9,7 +9,10 @@ import UIKit
 import SDWebImage
 
 class HeroCollectionViewCell: UICollectionViewCell {
- 
+    static var reuseIdentifier: String {
+        return String(describing: HeroCollectionViewCell.self)
+    }
+    
     var marvelCharacter: MarvelCharacter?
     
     @IBOutlet weak var lblCharacterName: UILabel!

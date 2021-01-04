@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -204,7 +204,6 @@
 				8684502296DA5DA87325838D /* Pods-marvel-heroes.debug.xcconfig */,
 				C47A51EFA13EF9E86B4A437C /* Pods-marvel-heroes.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
