@@ -177,7 +177,7 @@ extension CollectionViewController {
             let item = NSCollectionLayoutItem(layoutSize: size)
             let group = NSCollectionLayoutGroup.horizontal(layoutSize: size, subitem: item, count: itemCount)
             let section = NSCollectionLayoutSection(group: group)
-            section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
+            section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 20, trailing: 10)
             section.interGroupSpacing = 10
             return section
         })
