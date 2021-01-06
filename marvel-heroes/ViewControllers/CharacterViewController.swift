@@ -16,6 +16,7 @@ class CharacterViewController: UIViewController {
     @IBOutlet weak var lblDescription: UILabel!
     @IBOutlet weak var btnMoreInfoContainer: UIView!
     @IBOutlet weak var btnMoreInfo: UIButton!
+    @IBOutlet weak var btnClose: UIView!
     
     
     
@@ -36,6 +37,7 @@ class CharacterViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.largeTitleDisplayMode = .never
+        btnClose.layer.cornerRadius = btnClose.frame.height / 2
         setupView()
         setupCollectionViews()
     }
@@ -48,8 +50,13 @@ class CharacterViewController: UIViewController {
         lblName.text = marvelCharacter.name
         lblDescription.text = marvelCharacter.resultDescription == "" ? "No description." : marvelCharacter.resultDescription
         btnMoreInfoContainer.isHidden = marvelCharacter.detailURL == nil
+        
     }
-
+ 
+    @IBAction func closeVC(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
     @IBAction func knowMoreTapped(_ sender: Any) {
         if let url = marvelCharacter?.detailURL {
             let vc = SFSafariViewController(url: url, configuration: .init())

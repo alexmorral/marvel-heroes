@@ -32,6 +32,8 @@ class CollectionViewController: UIViewController {
     
     var currentCharacters = [MarvelCharacter]()
     
+    var currentSearchTerm: String?
+    
     private var loadingStatus: LoadingStatus = .notLoading
     
     override func viewDidLoad() {
@@ -78,9 +80,10 @@ class CollectionViewController: UIViewController {
         if offset == 0 {
             self.currentCharacters = []
         }
+        currentSearchTerm = searchTerm
         displayLoading()
         print("||| Current Offset: \(offset)")
-        NetworkManager.getMarvelCharacters(searchTerm: searchTerm,
+        NetworkManager.getMarvelCharacters(searchTerm: currentSearchTerm,
                                            offset: offset, success: { (results) in
             sleep(1)
             DispatchQueue.main.async {
@@ -122,7 +125,7 @@ extension CollectionViewController: UICollectionViewDelegate {
         
         if offsetY > contentHeight - scrollView.frame.size.height && loadingStatus == .notLoading {
             //Sort of an infinite scrolling
-            loadData(offset: currentCharacters.count)
+            loadData(offset: currentCharacters.count, searchTerm: currentSearchTerm)
         }
     }
     
@@ -133,7 +136,8 @@ extension CollectionViewController: UICollectionViewDelegate {
             return
         }
         characterVC.marvelCharacter = marvelCharacter
-        self.navigationController?.pushViewController(characterVC, animated: true)
+        characterVC.modalPresentationStyle = .fullScreen
+        self.navigationController?.present(characterVC, animated: true, completion: nil)
     }
 }
 

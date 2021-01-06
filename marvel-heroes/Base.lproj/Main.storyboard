@@ -126,7 +126,6 @@
                     <connections>
                         <outlet property="heroesCollectionView" destination="X6t-fe-gLh" id="xIx-kr-q2c"/>
                         <outlet property="lblErrorLoading" destination="obp-i2-xhR" id="O1B-3C-Hkh"/>
-                        <segue destination="DZg-q2-a1z" kind="show" id="9Fr-Jt-2dI"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="M2Q-cT-gqi" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -138,11 +137,11 @@
             <objects>
                 <viewController storyboardIdentifier="CharacterViewController" id="DZg-q2-a1z" customClass="CharacterViewController" customModule="marvel_heroes" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="VVx-i3-LiB">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MNe-Fd-rr0">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="774"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="862"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qhl-BT-vwP">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="1185.5"/>
@@ -337,6 +336,33 @@
                                                     </view>
                                                 </subviews>
                                             </stackView>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JZT-7i-uNE">
+                                                <rect key="frame" x="10" y="20" width="35" height="35"/>
+                                                <subviews>
+                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="xmark" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="Aj1-CH-H1j">
+                                                        <rect key="frame" x="5" y="7" width="25" height="20.5"/>
+                                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" secondItem="Aj1-CH-H1j" secondAttribute="height" multiplier="1:1" id="Lyl-kg-yTI"/>
+                                                        </constraints>
+                                                    </imageView>
+                                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OBJ-rD-iav">
+                                                        <rect key="frame" x="0.0" y="0.0" width="35" height="35"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                        <connections>
+                                                            <action selector="closeVC:" destination="DZg-q2-a1z" eventType="touchUpInside" id="HR5-ak-7Fk"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
+                                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="35" id="N6H-I8-2Gn"/>
+                                                    <constraint firstItem="Aj1-CH-H1j" firstAttribute="top" secondItem="JZT-7i-uNE" secondAttribute="top" constant="5" id="QQh-Bn-o7B"/>
+                                                    <constraint firstAttribute="bottom" secondItem="Aj1-CH-H1j" secondAttribute="bottom" constant="5" id="TKF-Bn-krH"/>
+                                                    <constraint firstItem="Aj1-CH-H1j" firstAttribute="leading" secondItem="JZT-7i-uNE" secondAttribute="leading" constant="5" id="aTE-gb-tCJ"/>
+                                                    <constraint firstAttribute="trailing" secondItem="Aj1-CH-H1j" secondAttribute="trailing" constant="5" id="aih-fL-Grf"/>
+                                                </constraints>
+                                            </view>
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
@@ -346,7 +372,9 @@
                                             <constraint firstAttribute="trailing" secondItem="n8I-de-fb4" secondAttribute="trailing" id="ENU-Ra-xc8"/>
                                             <constraint firstItem="B1w-st-Nvk" firstAttribute="leading" secondItem="qhl-BT-vwP" secondAttribute="leading" id="TFf-SF-WBp"/>
                                             <constraint firstItem="B1w-st-Nvk" firstAttribute="top" secondItem="qhl-BT-vwP" secondAttribute="top" id="aF4-Ne-Ykq"/>
+                                            <constraint firstItem="JZT-7i-uNE" firstAttribute="leading" secondItem="qhl-BT-vwP" secondAttribute="leading" constant="10" id="hjD-23-HXH"/>
                                             <constraint firstItem="n8I-de-fb4" firstAttribute="top" secondItem="B1w-st-Nvk" secondAttribute="bottom" constant="10" id="rpS-G8-5EY"/>
+                                            <constraint firstItem="JZT-7i-uNE" firstAttribute="top" secondItem="qhl-BT-vwP" secondAttribute="top" constant="20" id="v2g-q6-c6q"/>
                                         </constraints>
                                     </view>
                                 </subviews>
@@ -371,6 +399,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="gj6-S1-pq3"/>
                     <connections>
+                        <outlet property="btnClose" destination="JZT-7i-uNE" id="GD0-gD-6TR"/>
                         <outlet property="btnMoreInfo" destination="1Jz-jL-Uqa" id="mY6-gk-okP"/>
                         <outlet property="btnMoreInfoContainer" destination="Fch-5h-MA1" id="A9v-T1-PQ8"/>
                         <outlet property="characterImageView" destination="B1w-st-Nvk" id="i5s-tY-zV7"/>
@@ -393,6 +422,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="xmark" catalog="system" width="128" height="113"/>
         <systemColor name="systemBlueColor">
             <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
