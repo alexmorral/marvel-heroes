@@ -34,6 +34,13 @@ struct MarvelCharacter: Codable, Hashable {
     let stories: Stories
     let events: Comics
     let urls: [URLElement]
+    
+    lazy var detailURL: URL? = {
+        if let url = urls.first(where: {$0.type == "detail"})?.url {
+            return URL(string: url)
+        }
+        return nil
+    }()
 
     enum CodingKeys: String, CodingKey {
         case id, name

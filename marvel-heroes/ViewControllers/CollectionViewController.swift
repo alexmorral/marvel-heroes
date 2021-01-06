@@ -37,13 +37,17 @@ class CollectionViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Marvel Characters"
-        setupAppearance()
+        setupNavigationAppearance()
         setupHeroesCollection()
         loadData()
     }
     
-    func setupAppearance() {
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         navigationController?.navigationBar.prefersLargeTitles = true
+    }
+    
+    func setupNavigationAppearance() {  
         navigationItem.largeTitleDisplayMode = .always
         let navBarAppearance = UINavigationBarAppearance()
         navBarAppearance.configureWithOpaqueBackground()
@@ -54,6 +58,7 @@ class CollectionViewController: UIViewController {
         navigationController?.navigationBar.tintColor = .white
         navigationController?.navigationBar.standardAppearance = navBarAppearance
         navigationController?.navigationBar.scrollEdgeAppearance = navBarAppearance
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         configureNavigationItems()
     }
     
@@ -123,7 +128,12 @@ extension CollectionViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let marvelCharacter = currentCharacters[indexPath.row]
-        print("||Character selected: \(marvelCharacter)")
+        guard let characterVC = self.storyboard?.instantiateViewController(identifier: "CharacterViewController") as? CharacterViewController else {
+            print("CharacterViewController not found")
+            return
+        }
+        characterVC.marvelCharacter = marvelCharacter
+        self.navigationController?.pushViewController(characterVC, animated: true)
     }
 }
 

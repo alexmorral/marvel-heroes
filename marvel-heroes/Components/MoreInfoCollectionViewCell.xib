@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17505"/>
+        <capability name="collection view cell content view" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="MoreInfoCollectionViewCell" id="dAx-mW-whW" customClass="MoreInfoCollectionViewCell" customModule="marvel_heroes" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="171" height="160"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="p8c-ps-HXg">
+                <rect key="frame" x="0.0" y="0.0" width="171" height="160"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rsb-91-78i">
+                        <rect key="frame" x="0.0" y="0.0" width="171" height="160"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Xf-Ng-wnj">
+                                <rect key="frame" x="10" y="10" width="151" height="140"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="0.1124716645" green="0.1124716645" blue="0.1124716645" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="6Xf-Ng-wnj" firstAttribute="leading" secondItem="rsb-91-78i" secondAttribute="leading" constant="10" id="F3q-wo-K5O"/>
+                            <constraint firstAttribute="trailing" secondItem="6Xf-Ng-wnj" secondAttribute="trailing" constant="10" id="MMe-xW-qZm"/>
+                            <constraint firstItem="6Xf-Ng-wnj" firstAttribute="top" secondItem="rsb-91-78i" secondAttribute="top" constant="10" id="w1X-FG-D92"/>
+                            <constraint firstAttribute="bottom" secondItem="6Xf-Ng-wnj" secondAttribute="bottom" constant="10" id="yCb-M8-TTC"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="rsb-91-78i" firstAttribute="top" secondItem="p8c-ps-HXg" secondAttribute="top" id="Fp9-WL-xj6"/>
+                    <constraint firstAttribute="trailing" secondItem="rsb-91-78i" secondAttribute="trailing" id="gcu-JM-QRI"/>
+                    <constraint firstItem="rsb-91-78i" firstAttribute="leading" secondItem="p8c-ps-HXg" secondAttribute="leading" id="lxw-P8-7ru"/>
+                    <constraint firstAttribute="bottom" secondItem="rsb-91-78i" secondAttribute="bottom" id="ndJ-mj-GKz"/>
+                </constraints>
+            </collectionViewCellContentView>
+            <size key="customSize" width="171" height="160"/>
+            <connections>
+                <outlet property="lblName" destination="6Xf-Ng-wnj" id="a7m-aj-Y5a"/>
+                <outlet property="viewContainer" destination="rsb-91-78i" id="JG5-4I-Hpi"/>
+            </connections>
+            <point key="canvasLocation" x="25.362318840579711" y="183.48214285714286"/>
+        </collectionViewCell>
+    </objects>
+</document>
