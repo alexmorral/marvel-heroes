@@ -131,10 +131,7 @@ extension CollectionViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let marvelCharacter = currentCharacters[indexPath.row]
-        guard let characterVC = self.storyboard?.instantiateViewController(identifier: "CharacterViewController") as? CharacterViewController else {
-            print("CharacterViewController not found")
-            return
-        }
+        guard let characterVC = self.storyboard?.instantiateViewController(identifier: "CharacterViewController") as? CharacterViewController else { return }
         characterVC.marvelCharacter = marvelCharacter
         characterVC.modalPresentationStyle = .fullScreen
         self.navigationController?.present(characterVC, animated: true, completion: nil)
@@ -143,7 +140,6 @@ extension CollectionViewController: UICollectionViewDelegate {
 
 extension CollectionViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        //search
         searchResultsWith(text: searchBar.text)
     }
     

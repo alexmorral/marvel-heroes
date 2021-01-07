@@ -65,28 +65,28 @@ class CharacterViewController: UIViewController {
     }
     
     func setupCollectionViews() {
-        if let comics = marvelCharacter?.comics.items.compactMap({ $0.name }) {
+        if let comics = marvelCharacter?.comics.items.compactMap({ $0.name }), comics.count > 0 {
             comicsContainer.addAndPin(view: MoreInfoCollectionView(elements: comics))
         } else {
             lblComicsContainer.isHidden = true
             comicsContainer.isHidden = true
         }
         
-        if let series = marvelCharacter?.series.items.compactMap({$0.name}) {
+        if let series = marvelCharacter?.series.items.compactMap({$0.name}), series.count > 0 {
             seriesContainer.addAndPin(view: MoreInfoCollectionView(elements: series))
         } else {
             lblSeriesContainer.isHidden = true
             seriesContainer.isHidden = true
         }
         
-        if let stories = marvelCharacter?.stories.items.compactMap({ $0.name }) {
+        if let stories = marvelCharacter?.stories.items.compactMap({ $0.name }), stories.count > 0 {
             storiesContainer.addAndPin(view: MoreInfoCollectionView(elements: stories))
         } else {
             lblStoriesContainer.isHidden = true
             storiesContainer.isHidden = true
         }
         
-        if let events = marvelCharacter?.events.items.compactMap({ $0.name }) {
+        if let events = marvelCharacter?.events.items.compactMap({ $0.name }), events.count > 0 {
             eventsContainer.addAndPin(view: MoreInfoCollectionView(elements: events))
         } else {
             lblEventsContainer.isHidden = true
